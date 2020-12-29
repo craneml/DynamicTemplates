@@ -7,7 +7,7 @@ TARGET = DynamicTemplates
 INCLUDEPATH += .
 
 QT += widgets
-#QT += printsupport
+QT += printsupport
 QT += svg
 
 # You can make your code fail to compile if you use deprecated APIs.

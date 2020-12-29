@@ -16,7 +16,7 @@
 // Refer to the GNU General Public License in file "license.txt"
 // Otherwise, see <http://www.gnu.org/licenses/>.
 
-#include <QtGui>
+#include <QtWidgets>
 
 #include "MyWindow.h"
 

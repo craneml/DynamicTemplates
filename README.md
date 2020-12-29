@@ -45,10 +45,20 @@ Since the rest of the tool did what I wanted, and I couldn't figure out a way to
 
 # Attempts
 
-1. I was unable to find the exact right Blue HIghway font to make the tool look like it does in the screensho (on Mac).  Blocked.
+## Sticking with Qt 4
+
+1. I was unable to find the exact right Blue Highway font to make the tool look like it does in the screensho (on Mac).  Blocked.
 2. I knew that the name of the font is embedded in the code.  I did not explore trying to change an existing font and renaming it - I should explore this, given below.
 3. I was able to download the source code and finally get it running.  However, although I kept changing the font to other fonts on my Mac (all ttf), the font was always Helvetica.  I'm unfamiliar with QT and C++, but my research indicates I'm using the right commands to change font, even including the font itself as a resource.  Blocked.
 4. For now, I decided to go with the default Helvetica and tweak the rest of the code to suit my needs, e.g., instead of printing "December", print "Dec", etc.  I also took the opportunity to rename various sections on the 2-page-per-day templates.
+
+## Upgrading to Qt 5
+
+I was originally hesitant to upgrade the code to make use of Qt 5, since this is not my code, and the number of compile
+errors seemed daunting.  After taking Qt 4 as far as I could, I tried to upgrade to Qt 5 (and I was more familiar with 
+the code by then).  The migration included some minor code changes and took about 15 minutes.  
+
+And now, font changes in the code work!
 
 # Code
 
@@ -58,9 +68,11 @@ I'm using:
 - QT Creator and open source version of QT, 
    - https://www.qt.io/download-open-source?hsCtaTracking=9f6a2170-a938-42df-a8e2-a9f0b1d6cdce%7C6cb0de4f-9bb5-4778-ab02-bfb62735f3e5
    - https://www.qt.io/download-qt-installer?hsCtaTracking=99d9dd4f-5681-48d2-b096-470725510d34%7C074ddad0-fdef-4e53-8aa8-5e8a876d6ab4
-- QT4 version installedx with help from https://stackoverflow.com/questions/50442009/how-to-install-qt4-with-home-brew/50442031
+- [deprecated] QT4 version installedx with help from https://stackoverflow.com/questions/50442009/how-to-install-qt4-with-home-brew/50442031
 
-With the QT Creator, and a project that deliberately targets QT4 (vs. the default 5), I'm able to compile the dynamic template app and get it running.
+~~With the QT Creator, and a project that deliberately targets QT4 (vs. the default 5), I'm able to compile the dynamic template app and get it running.~~
+
+With the QT Creator, and a project that targest the default QT5, the code compiles, and fonts work in the app.
 
 # This Repository
 

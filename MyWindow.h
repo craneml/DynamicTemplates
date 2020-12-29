@@ -22,7 +22,7 @@
 
 
 #include <QWidget>
-#include <QtGui>
+#include <QtWidgets>
 #include <QtDebug>
 
 #include "RenderArea.h"

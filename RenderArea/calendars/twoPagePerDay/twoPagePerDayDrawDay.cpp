@@ -70,10 +70,10 @@ void RenderArea::twoPagePerDayDrawDay ( QPainter* painter, bool leftPage )
 //    qDebug() << werdz.toString();
 
     // Font for words
-    QFont werdz ("Monaco");
-//    qDebug() << werdz;
-//    const QFontInfo fi(werdz);
-//    qDebug() << fi.family() << fi.fixedPitch() << fi.styleName() << fi.styleHint();
+    QFont werdz ("Times New Roman");
+    qDebug() << werdz;
+    const QFontInfo fi(werdz);
+    qDebug() << fi.family() << fi.fixedPitch() << fi.styleName() << fi.styleHint();
 
     // At least customize Helvetica a little to make it more palatable
     werdz.setCapitalization(QFont::SmallCaps);

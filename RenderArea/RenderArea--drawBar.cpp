@@ -18,6 +18,7 @@
 
 
 #include <QtDebug>  // this is here for debugging 
+#include <QPainterPath>
 
 #include "RenderArea.h"
 
