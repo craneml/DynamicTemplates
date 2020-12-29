@@ -24,7 +24,7 @@ void RenderArea::drawLittleMonth ( QPainter* painter, QDate when, QRectF where, 
 	QDate refMonth[7][6] ;
 	QDate localDay ;
 	QFont foo ( "Blue Highway" ) ;
-	QFont dayz ( "Monaco" ) ;
+    QFont dayz ( "Blue Highway" ) ;
 	
 	localDay.setDate ( when.year(), when.month(), 1 ) ;
 	
@@ -73,6 +73,7 @@ void RenderArea::drawLittleMonth ( QPainter* painter, QDate when, QRectF where, 
 	painter->setBrush ( theBrush  ) ;
 	
 	QRectF theBox ;
+    QString mediumDayString;
 	QString littleDayString ;
 	
 	painter->drawText
@@ -95,6 +96,10 @@ void RenderArea::drawLittleMonth ( QPainter* painter, QDate when, QRectF where, 
 	theBrush.setColor ( lineColors[1] ) ;
 	painter->setBrush ( theBrush  ) ;
 	
+    // Set the foo font to italic and then reset painter to it
+    // This allows me to print the day names in italics
+    foo.setItalic(true);
+    painter->setFont ( foo ) ;
 	
 	for ( int dow = 0 ; dow < 7 ; dow++ )
 	{	theBox.setRect
@@ -104,10 +109,28 @@ void RenderArea::drawLittleMonth ( QPainter* painter, QDate when, QRectF where, 
 			where.height() / 12.
 		) ;
 		
-		littleDayString = refMonth[dow][0].toString ( "ddd" ) ;
-		fitStringInRect ( theBox, littleDayString, painter, Qt::AlignCenter, 0.95 ) ;
+        // Instead of grabbing the three-char abbreviation for day, use a home-made
+        // switch to 1-2 char.  This is necessary because I can't change the font from
+        // helvetica.
+        //        littleDayString = refMonth[dow][0].toString ( "ddd" ) ;
 
-	}
+        mediumDayString = refMonth[dow][0].toString ( "ddd" ) ;
+        if ( mediumDayString == "Mon" ) {
+            littleDayString = "M";
+        } else if (mediumDayString == "Tue") {
+            littleDayString = "T";
+        } else if (mediumDayString == "Wed") {
+            littleDayString = "W";
+        } else if (mediumDayString == "Thu") {
+            littleDayString = "Th";
+        } else if (mediumDayString == "Fri") {
+            littleDayString = "F";
+        } else {
+            littleDayString = "S";
+        }
+
+		fitStringInRect ( theBox, littleDayString, painter, Qt::AlignCenter, 0.95 ) ;
+    }
 
 	painter->setFont ( dayz ) ;
 	
@@ -148,7 +171,7 @@ void RenderArea::drawLittleMonth ( QPainter* painter, QDate when, QRectF where, 
 				(	theBox,
 					littleDayString, 
 					painter, 
-					Qt::AlignCenter,
+                    Qt::AlignRight, // was AlignCenter but with non-mono font, right align looks better
 					0.80					
 				) ;
 			}

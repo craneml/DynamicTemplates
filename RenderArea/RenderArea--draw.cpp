@@ -514,7 +514,8 @@ void RenderArea::credits ( QPainter* painter )
 	QRectF textRect ( thePaper.x(), thePaper.y() + (topMargin / 2.0), thePaper.width(), topMargin / 4.0 ) ;
 	textRect.moveTop ( thePage.bottom() ) ;
 	
-	fitStringInRect ( textRect, tr("This template was created with the D*I*Y Planner Dynamic Template application -- Available free at www.DIYPlanner.com."), painter, Qt::AlignBottom | Qt::AlignHCenter, 0.80 ) ;
+	// I don't need to see the watermark; it's too small to read anyway and I might want the writing space
+//	fitStringInRect ( textRect, tr("This template was created with the D*I*Y Planner Dynamic Template application -- Available free at www.DIYPlanner.com."), painter, Qt::AlignBottom | Qt::AlignHCenter, 0.80 ) ;
 }
 
 void RenderArea::TBD ( QPainter* painter )

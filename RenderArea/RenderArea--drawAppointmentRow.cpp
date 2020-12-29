@@ -70,15 +70,16 @@ void RenderArea::drawAppointmentRow ( QPainter* painter, QRectF theRect, ApptBox
 			painter->drawLine ( QLineF ( otherBox.left() + checkBox.width(), lineY, otherBox.right(), lineY ) ) ;
 			thePen.setStyle(Qt::SolidLine);
 			painter->setPen ( thePen ) ;
-			if ( ! hour.isNull() )
-			{	fitStringInRect
-				(	QRectF ( otherBox.left(), lineY, checkBox.width(), checkBox.height() ),
-					tr(":30"),
-					painter,
-					Qt::AlignCenter,
-					0.75 
-				) ;				
-			}
+            // I don't need to see the "30" on the half hour rows
+//			if ( ! hour.isNull() )
+//			{	fitStringInRect
+//				(	QRectF ( otherBox.left(), lineY, checkBox.width(), checkBox.height() ),
+//					tr(":30"),
+//					painter,
+//					Qt::AlignCenter,
+//					0.75
+//				) ;
+//			}
 			break ;
 		case APPT_BOX_QUAD:
 			thePen.setDashPattern ( dashes ) ;
@@ -91,20 +92,20 @@ void RenderArea::drawAppointmentRow ( QPainter* painter, QRectF theRect, ApptBox
 			thePen.setStyle(Qt::SolidLine);
 			painter->setPen ( thePen ) ;
 			painter->drawLine ( QLineF ( otherBox.left(), lineY, otherBox.right(), lineY ) ) ;
-			if ( ! hour.isNull() )
-			{	fitStringInRect
-				(	QRectF
-					(	otherBox.left(),
-						otherBox.top() + ( 2.0 * checkBox.height() ),
-						checkBox.width(),
-						checkBox.height() 
-					),
-					tr(":30"),
-					painter,
-					Qt::AlignCenter,
-					0.75
-				) ;				
-			}
+             if ( ! hour.isNull() )
+             {	fitStringInRect
+                (	QRectF
+                    (	otherBox.left(),
+                        otherBox.top() + ( 2.0 * checkBox.height() ),
+                        checkBox.width(),
+                        checkBox.height()
+                    ),
+                    tr(":30"),
+                    painter,
+                    Qt::AlignCenter,
+                    0.75
+                ) ;
+             }
 			break ;
 	}
 	

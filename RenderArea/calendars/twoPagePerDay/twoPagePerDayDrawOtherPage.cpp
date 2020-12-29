@@ -58,8 +58,12 @@ void RenderArea::twoPagePerDayDrawOtherPage ( QPainter* painter, bool leftPage )
 	painter->setPen ( thePen ) ;
 	painter->setFont ( foo ) ;
 
-	drawSubHeader ( painter, barRect, 0.35, tr("Daily Journal") ) ;
-	barRect.moveTop ( barRect.bottom() + ( 0.50 * barRect.height() ) ) ;
+    // Not drawing left-side heading because it'll get sent to the back
+    // drawSubHeader ( painter, barRect, 0.35, tr("Log") ) ; // was Daily Journal
+    // Instead, draw this new right-side heading to write the date, which is what I want to see on my log page
+    drawRightHandSubHeader ( painter, barRect, 0.50, today.toString ( "ddd d MMM yy" ) ) ;
+    barRect.moveTop ( barRect.bottom() + ( 0.50 * barRect.height() ) ) ;
+
 	
 	do
 	{	drawRow ( painter, barRect, ROW_GREY_TWO_STRIPE, false ) ;

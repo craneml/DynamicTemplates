@@ -22,10 +22,35 @@
 #include <QLinearGradient>
 #include <QLineF>
 #include <QTime>
+#include <QFont>
+#include <QFontDatabase>
 #include <math.h>
 
 #include <QtDebug>  // this is here for debugging 
 #include "RenderArea.h"
+
+//
+// Commented out code is from me debugging why I can't create a QFont other than Helvetica
+//
+
+//bool isFixedPitch(const QFont &font) {
+//    qDebug() << font;
+//   const QFontInfo fi(font);
+//   qDebug() << fi.family() << fi.fixedPitch();
+//   return fi.fixedPitch();
+//}
+
+//QFont getMonospaceFont() {
+//   QFont font("monospace");
+//   if (isFixedPitch(font)) return font;
+//   font.setStyleHint(QFont::Monospace);
+//   if (isFixedPitch(font)) return font;
+//   font.setStyleHint(QFont::TypeWriter);
+//   if (isFixedPitch(font)) return font;
+//   font.setFamily("courier");
+//   if (isFixedPitch(font)) return font;
+//   return font;
+//}
 
 void RenderArea::twoPagePerDayDrawDay ( QPainter* painter, bool leftPage )
 {
@@ -33,8 +58,38 @@ void RenderArea::twoPagePerDayDrawDay ( QPainter* painter, bool leftPage )
 	qreal howManyTall ;
 	qreal howManyFromTop ;
 
-	QFont werdz ( "Blue Highway" ) ;
-	QFont dayz ( "Monaco" ) ;
+//    int id = QFontDatabase::addApplicationFont("://fonts/Envy Code R.ttf");
+//    qDebug() << id;
+//    QString family = QFontDatabase::applicationFontFamilies(id).at(0);
+//    qDebug() << family;
+//    QFont werdz(family);
+//    QFont werdz("://fonts/Envy Code R.ttf");
+//    qDebug() << werdz.rawName();
+//    qDebug() << werdz.family();
+//    qDebug() << werdz.defaultFamily();
+//    qDebug() << werdz.toString();
+
+    // Font for words
+    QFont werdz ("Monaco");
+//    qDebug() << werdz;
+//    const QFontInfo fi(werdz);
+//    qDebug() << fi.family() << fi.fixedPitch() << fi.styleName() << fi.styleHint();
+
+    // At least customize Helvetica a little to make it more palatable
+    werdz.setCapitalization(QFont::SmallCaps);
+
+//    qDebug() << werdz;
+//    isFixedPitch(werdz);
+
+//    const QStringList familyNames = QFontDatabase::applicationFontFamilies( id );
+//    for( auto familyName :  familyNames )
+//    {
+//        qDebug("XXX");
+//        qDebug() << familyName;
+//    }
+
+    // Font for days
+    QFont dayz ( "Roboto Mono" ) ;
 	
 	QPen thePen(Qt::white, penWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 	QBrush theBrush ( Qt::white, Qt::SolidPattern ) ;
@@ -83,7 +138,7 @@ void RenderArea::twoPagePerDayDrawDay ( QPainter* painter, bool leftPage )
 	//-------- Page Top Title ----------------------------------------------------
 	//
 	//-------- big day number ----------------------------------------------------
-	painter->setFont ( dayz ) ;
+    painter->setFont ( dayz ) ; // dayz
 	
 	QRectF textRect = justAbox2 ;
 	textRect.setHeight ( justAbox.height() / 3. ) ;
@@ -96,7 +151,7 @@ void RenderArea::twoPagePerDayDrawDay ( QPainter* painter, bool leftPage )
 	}
 	
 	//-------- day of the week ----------------------------------------------------
-	painter->setFont ( werdz ) ;
+    painter->setFont ( werdz ) ; // werdz
 
 	textRect.moveTop( textRect.bottom() ) ;
 	textRect.setHeight ( 6.0 * textRect.height() / 15.0 ) ;
@@ -107,20 +162,20 @@ void RenderArea::twoPagePerDayDrawDay ( QPainter* painter, bool leftPage )
 	painter->setBrush ( theBrush  ) ;
 	
 	if ( leftPage )
-	{	fitStringInRect ( textRect, today.toString ( "MMMM yyyy" ), painter, Qt::AlignVCenter | Qt::AlignLeft, 0.90 ) ;
+    {	fitStringInRect ( textRect, today.toString ( "MMM yyyy" ), painter, Qt::AlignVCenter | Qt::AlignLeft, 0.90 ) ;
 	}
 	else
-	{	fitStringInRect ( textRect, today.toString ( "MMMM yyyy" ), painter, Qt::AlignVCenter | Qt::AlignRight, 0.90 ) ;
+    {	fitStringInRect ( textRect, today.toString ( "MMM yyyy" ), painter, Qt::AlignVCenter | Qt::AlignRight, 0.90 ) ;
 	}
 	//-------- month and year ----------------------------------------------------
 	textRect.moveTop( textRect.bottom() ) ;
 	textRect.setHeight ( 3.0 * textRect.height() / 2.0 ) ;
 
 	if ( leftPage )
-	{	fitStringInRect ( textRect, today.toString ( "dddd" ), painter, Qt::AlignVCenter | Qt::AlignLeft, 0.90 ) ;
+    {	fitStringInRect ( textRect, today.toString ( "ddd" ), painter, Qt::AlignVCenter | Qt::AlignLeft, 0.90 ) ;
 	}
 	else
-	{	fitStringInRect ( textRect, today.toString ( "dddd" ), painter, Qt::AlignVCenter | Qt::AlignRight, 0.90 ) ;
+    {	fitStringInRect ( textRect, today.toString ( "ddd" ), painter, Qt::AlignVCenter | Qt::AlignRight, 0.90 ) ;
 	}
 	
 
@@ -136,36 +191,36 @@ void RenderArea::twoPagePerDayDrawDay ( QPainter* painter, bool leftPage )
 	drawLittleMonth ( painter, today, justAbox2, true )  ;
 
 	//-------- month before ----------------------------------------------------
-	justAbox2.moveTop ( justAbox2.bottom() ) ;
-	justAbox2.setHeight ( justAbox2.height() / 2 ) ;
-	justAbox2.setWidth ( justAbox2.width() / 2 ) ;
+//	justAbox2.moveTop ( justAbox2.bottom() ) ;
+//	justAbox2.setHeight ( justAbox2.height() / 2 ) ;
+//	justAbox2.setWidth ( justAbox2.width() / 2 ) ;
 	
-	drawLittleMonth
-	(	painter,
-		today.addMonths ( -1 ),
-		QRectF
-		(	justAbox2.x(),
-			justAbox2.y(),
-			31 * justAbox2.width() / 32,
-			justAbox2.height()
-		),
-		false
-	)  ;
+//	drawLittleMonth
+//	(	painter,
+//		today.addMonths ( -1 ),
+//		QRectF
+//		(	justAbox2.x(),
+//			justAbox2.y(),
+//			31 * justAbox2.width() / 32,
+//			justAbox2.height()
+//		),
+//		false
+//	)  ;
 
 	//-------- month after ----------------------------------------------------
-	justAbox2.moveLeft ( justAbox2.right() ) ;
+//	justAbox2.moveLeft ( justAbox2.right() ) ;
 	
-	drawLittleMonth
-	(	painter, 
-		today.addMonths ( 1 ), 
-		QRectF
-		(	justAbox2.x() + (justAbox2.width() / 32),
-			justAbox2.y(),
-			31 * justAbox2.width() / 32,
-			justAbox2.height()
-		),
-		false
-	)  ;
+//	drawLittleMonth
+//	(	painter,
+//		today.addMonths ( 1 ),
+//		QRectF
+//		(	justAbox2.x() + (justAbox2.width() / 32),
+//			justAbox2.y(),
+//			31 * justAbox2.width() / 32,
+//			justAbox2.height()
+//		),
+//		false
+//	)  ;
 
 	//--------------------------------------------------------------------------
 	
@@ -177,7 +232,7 @@ void RenderArea::twoPagePerDayDrawDay ( QPainter* painter, bool leftPage )
 	
 	QRectF barRect ( justAbox.x(), justAbox.y(), justAbox.width(), displayLineSpacing ) ;
 	
-	drawSubHeader ( painter, barRect, 0.45, tr("Daily Tasks") ) ;
+    drawSubHeader ( painter, barRect, 0.45, tr("Todos") ) ; // was Daily Tasks
 
 	barRect.moveTop ( barRect.bottom() + ( 0.50 * barRect.height() ) ) ;
 	
@@ -187,7 +242,7 @@ void RenderArea::twoPagePerDayDrawDay ( QPainter* painter, bool leftPage )
 	} // while ( barRect.bottom() < page.bottom() ) ;
 
 	barRect.moveTop ( barRect.bottom() - ( 0.50 * barRect.height() ) ) ;
-	drawSubHeader ( painter, barRect, 0.45, tr("Expenses") ) ;
+    drawSubHeader ( painter, barRect, 0.45, tr("Meals") ) ; // was Expenses
 	barRect.moveTop ( barRect.bottom() + ( 0.50 * barRect.height() ) ) ;
 
 	do
@@ -206,7 +261,7 @@ void RenderArea::twoPagePerDayDrawDay ( QPainter* painter, bool leftPage )
 	{	barRect.moveLeft ( page.left() ) ;
 	}
 
-	drawSubHeader ( painter, barRect, 0.55, tr("Appointments") ) ;
+    drawSubHeader ( painter, barRect, 0.55, tr("Schedule") ) ; // was Appointments
 	barRect.moveTop ( barRect.bottom() + ( 0.50 * barRect.height() ) ) ;
 	
 	thePen.setColor ( lineColors[2] ) ;
