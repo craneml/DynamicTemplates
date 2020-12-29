@@ -23,8 +23,8 @@ void RenderArea::drawLittleMonth ( QPainter* painter, QDate when, QRectF where, 
 {
 	QDate refMonth[7][6] ;
 	QDate localDay ;
-	QFont foo ( "Blue Highway" ) ;
-    QFont dayz ( "Blue Highway" ) ;
+    QFont foo ( "Envy Code R" ) ;
+    QFont dayz ( "Envy Code R" ) ;
 	
 	localDay.setDate ( when.year(), when.month(), 1 ) ;
 	
@@ -98,8 +98,8 @@ void RenderArea::drawLittleMonth ( QPainter* painter, QDate when, QRectF where, 
 	
     // Set the foo font to italic and then reset painter to it
     // This allows me to print the day names in italics
-    foo.setItalic(true);
-    painter->setFont ( foo ) ;
+//    foo.setItalic(true);
+//    painter->setFont ( foo ) ;
 	
 	for ( int dow = 0 ; dow < 7 ; dow++ )
 	{	theBox.setRect
@@ -171,7 +171,7 @@ void RenderArea::drawLittleMonth ( QPainter* painter, QDate when, QRectF where, 
 				(	theBox,
 					littleDayString, 
 					painter, 
-                    Qt::AlignRight, // was AlignCenter but with non-mono font, right align looks better
+                    Qt::AlignCenter, // was AlignCenter but with non-mono font, right align looks better
 					0.80					
 				) ;
 			}

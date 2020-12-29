@@ -29,67 +29,28 @@
 #include <QtDebug>  // this is here for debugging 
 #include "RenderArea.h"
 
-//
-// Commented out code is from me debugging why I can't create a QFont other than Helvetica
-//
-
-//bool isFixedPitch(const QFont &font) {
-//    qDebug() << font;
-//   const QFontInfo fi(font);
-//   qDebug() << fi.family() << fi.fixedPitch();
-//   return fi.fixedPitch();
-//}
-
-//QFont getMonospaceFont() {
-//   QFont font("monospace");
-//   if (isFixedPitch(font)) return font;
-//   font.setStyleHint(QFont::Monospace);
-//   if (isFixedPitch(font)) return font;
-//   font.setStyleHint(QFont::TypeWriter);
-//   if (isFixedPitch(font)) return font;
-//   font.setFamily("courier");
-//   if (isFixedPitch(font)) return font;
-//   return font;
-//}
-
 void RenderArea::twoPagePerDayDrawDay ( QPainter* painter, bool leftPage )
 {
 	int loop ;
 	qreal howManyTall ;
 	qreal howManyFromTop ;
 
-//    int id = QFontDatabase::addApplicationFont("://fonts/Envy Code R.ttf");
-//    qDebug() << id;
-//    QString family = QFontDatabase::applicationFontFamilies(id).at(0);
-//    qDebug() << family;
-//    QFont werdz(family);
-//    QFont werdz("://fonts/Envy Code R.ttf");
-//    qDebug() << werdz.rawName();
-//    qDebug() << werdz.family();
-//    qDebug() << werdz.defaultFamily();
-//    qDebug() << werdz.toString();
 
-    // Font for words
-    QFont werdz ("Times New Roman");
-    qDebug() << werdz;
-    const QFontInfo fi(werdz);
-    qDebug() << fi.family() << fi.fixedPitch() << fi.styleName() << fi.styleHint();
+
+    // Fonts
+    QFont werdz ("Marker Felt"); // will be used for most of the text on this page, e.g., month, year, day of the week, todos, schedule
+    QFont dayz ( "Envy Code R" ) ; // will be forced into use for the hours in the schedule
+    QFont bigDayNumber ("Marker Felt"); // top-left big number
+
+    // For debugging font info
+//    qDebug() << werdz;
+//    const QFontInfo fi(werdz);
+//    qDebug() << fi.family() << fi.fixedPitch() << fi.styleName() << fi.styleHint();
 
     // At least customize Helvetica a little to make it more palatable
-    werdz.setCapitalization(QFont::SmallCaps);
+    //werdz.setCapitalization(QFont::SmallCaps);
 
-//    qDebug() << werdz;
-//    isFixedPitch(werdz);
 
-//    const QStringList familyNames = QFontDatabase::applicationFontFamilies( id );
-//    for( auto familyName :  familyNames )
-//    {
-//        qDebug("XXX");
-//        qDebug() << familyName;
-//    }
-
-    // Font for days
-    QFont dayz ( "Roboto Mono" ) ;
 	
 	QPen thePen(Qt::white, penWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 	QBrush theBrush ( Qt::white, Qt::SolidPattern ) ;
@@ -138,7 +99,7 @@ void RenderArea::twoPagePerDayDrawDay ( QPainter* painter, bool leftPage )
 	//-------- Page Top Title ----------------------------------------------------
 	//
 	//-------- big day number ----------------------------------------------------
-    painter->setFont ( dayz ) ; // dayz
+    painter->setFont ( bigDayNumber ) ; // dayz
 	
 	QRectF textRect = justAbox2 ;
 	textRect.setHeight ( justAbox.height() / 3. ) ;
@@ -267,6 +228,8 @@ void RenderArea::twoPagePerDayDrawDay ( QPainter* painter, bool leftPage )
 	thePen.setColor ( lineColors[2] ) ;
 	painter->setPen ( thePen ) ;
 
+    painter->setFont(dayz); // set the font for the hours in the schedule
+
 	int howManyAppointmentLines = (int)(( page.bottom() - barRect.top() ) / displayLineSpacing ) ;
 	int blokCount = howManyAppointmentLines / 2 ;
 	
@@ -286,7 +249,7 @@ void RenderArea::twoPagePerDayDrawDay ( QPainter* painter, bool leftPage )
 				drawAppointmentRow ( painter, barRect, APPT_BOX_DOUBLE, apptHour.toString("h a").section(' ', 0, 0) ) ;
 				break ;
 			case 2: // 24 hour clock	
-				drawAppointmentRow ( painter, barRect, APPT_BOX_DOUBLE, apptHour.toString("H") ) ;
+                drawAppointmentRow ( painter, barRect, APPT_BOX_DOUBLE, apptHour.toString("HH") ) ;
 				break ;
 			default:
 				drawAppointmentRow ( painter, barRect, APPT_BOX_DOUBLE, QString() ) ;

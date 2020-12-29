@@ -23,7 +23,7 @@
 
 void RenderArea::twoPagePerDayDrawOtherPage ( QPainter* painter, bool leftPage )
 {
-	QFont foo ( "Blue Highway" ) ;
+    QFont foo ( "Marker Felt" ) ;
 	QPen thePen(Qt::white, penWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 	QBrush theBrush ( Qt::white, Qt::SolidPattern ) ;
 	
